@@ -1,5 +1,6 @@
-import reportity_c
 import pandas as pd
+
+from reportity import reportity
 from matplotlib import pyplot as plt
 
 
@@ -25,41 +26,40 @@ def main():
     )
     plt.title('Scores Vs Age Scatter Plot',fontsize=20)
 
-
-    reportity = reportity_c.Reportity(
+    report = reportity.Reportity(
         title='Test',
     )
-    reportity.add_header(
+    report.add_header(
         text='Description',
         level=1,
     )
-    reportity.add_paragraph(
+    report.add_paragraph(
         text='This is data of pepole'
     )
-    reportity.add_header(
+    report.add_header(
         text='Data',
         level=2,
     )
-    reportity.add_paragraph(
+    report.add_paragraph(
         text='The data - '
     )
-    reportity.add_dataframe(
+    report.add_dataframe(
         dataframe=data,
     )
-    reportity.add_header(
+    report.add_header(
         text='Figures',
         level=1,
     )
-    reportity.add_figure(
+    report.add_figure(
         figure=fig1,
     )
-    reportity.add_figure(
+    report.add_figure(
         figure=fig2,
     )
-    reportity.add_paragraph(
+    report.add_paragraph(
         text='here mpld3 is not supporting scatter plot, so an image is presented'
     )
-    reportity.show()
+    report.show()
 
 def get_test_data():
     raw_data = {
