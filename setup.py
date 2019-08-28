@@ -15,4 +15,5 @@ setup(
     license='MIT',
     description='',
     long_description=open('README.md').read(),
+    scripts = ['scripts/test.py']
 )
