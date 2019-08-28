@@ -14,5 +14,5 @@ setup(
     version='0.1',
     license='MIT',
     description='',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
 )
