@@ -1,5 +1,6 @@
 import pandas as pd
 
+# from . context import reportity
 from reportity import reportity
 from matplotlib import pyplot as plt
 
@@ -29,34 +30,34 @@ def main():
     report = reportity.Reportity(
         title='Test',
     )
-    report.add_header(
+    report.print_header(
         text='Description',
         level=1,
     )
-    report.add_paragraph(
+    report.print_paragraph(
         text='This is data of pepole'
     )
-    report.add_header(
+    report.print_header(
         text='Data',
         level=2,
     )
-    report.add_paragraph(
+    report.print_paragraph(
         text='The data - '
     )
-    report.add_dataframe(
+    report.print_dataframe(
         dataframe=data,
     )
-    report.add_header(
+    report.print_header(
         text='Figures',
         level=1,
     )
-    report.add_figure(
+    report.print_figure(
         figure=fig1,
     )
-    report.add_figure(
+    report.print_figure(
         figure=fig2,
     )
-    report.add_paragraph(
+    report.print_paragraph(
         text='here mpld3 is not supporting scatter plot, so an image is presented'
     )
     report.show()

@@ -17,7 +17,7 @@ class Reportity():
     ):
         self.html = ''
         self.figures_next_id = 0
-        self.figures_href = '<h2>Figures List</h2>'
+        self.figures_href = ''
         self.html_ended = False
 
         self.html = '''
@@ -53,7 +53,6 @@ class Reportity():
         self.html += '<h1>{title}</h1>figures_hrefs'.format(
             title=title,
         )
-        self.html += ''
 
     def __end_html__(
         self,
@@ -73,7 +72,7 @@ class Reportity():
             string=self.html,
         )
 
-    def add_paragraph(
+    def print_paragraph(
         self,
         text,
     ):
@@ -81,7 +80,7 @@ class Reportity():
             text=text,
         )
 
-    def add_header(
+    def print_header(
         self,
         text,
         level,
@@ -91,7 +90,7 @@ class Reportity():
             text=text,
         )
 
-    def add_dataframe(
+    def print_dataframe(
         self,
         dataframe,
         max_rows=100,
@@ -110,7 +109,7 @@ class Reportity():
 
         self.html += html_table
 
-    def add_figure(
+    def print_figure(
         self,
         figure,
         figure_name=None,
