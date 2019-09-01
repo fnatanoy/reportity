@@ -46,6 +46,7 @@ def main():
     )
     report.print_dataframe(
         dataframe=data,
+        max_rows=5,
     )
     report.print_header(
         text='Figures',

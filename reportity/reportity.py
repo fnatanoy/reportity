@@ -39,6 +39,15 @@ class Reportity():
                     margin-right: auto;
                     width: 50%;
                 }
+                hr { 
+                    display: block;
+                    margin-top: 0.5em;
+                    margin-bottom: 0.5em;
+                    margin-left: auto;
+                    margin-right: auto;
+                    border-style: inset;
+                    border-width: 1px;
+                }
                 </style>
                 <title>Bootstrap Example</title>
                 <meta charset="utf-8">
@@ -50,7 +59,7 @@ class Reportity():
             <body>
         '''
 
-        self.html += '<h1>{title}</h1>figures_hrefs'.format(
+        self.html += '<h1 align="center", style="font-size:400%">{title}</h1><hr>figures_hrefs'.format(
             title=title,
         )
 
@@ -66,6 +75,7 @@ class Reportity():
             </html>
         '''
 
+        self.figures_href = '<h1 >Figures List</h1>' + self.figures_href
         self.html = re.sub(
             pattern='figures_hrefs',
             repl=self.figures_href,
