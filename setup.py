@@ -10,7 +10,7 @@ setup(
         'matplotlib',
         'numpy',
         'pandas',
-        '-e git+git://github.com/mpld3/mpld3@master#egg=mpld3',
+        '-e git://github.com/mpld3/mpld3@master#egg=mpld3',
         'Jinja2 == 2.10.1',
     ],
     version='0.1',
