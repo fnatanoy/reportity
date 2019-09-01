@@ -123,6 +123,7 @@ class Reportity():
         self,
         figure,
         figure_name=None,
+        image=False,
     ):
         if not figure_name:
             figure_name = figure.axes[0].get_title()
@@ -138,23 +139,38 @@ class Reportity():
             figure_name=figure_name,
         )
 
-        try:
-            fig_html = mpld3.fig_to_html(figure).split('<div ')
-            fig_html = fig_html[0] + '<div align="center" ' + fig_html[1]
+        if image:
+            fig_html = self.get_figure_image_html(
+                figure=figure,
+            )
+        else:
+            try:
+                fig_html = mpld3.fig_to_html(figure).split('<div ')
+                fig_html = fig_html[0] + '<div align="center" ' + fig_html[1]
 
-        except:
-            buf = BytesIO()
-            figure.savefig(
-                buf,
-                format='png',
-            )
-            data = base64.b64encode(buf.getbuffer()).decode('ascii')
-            fig_html = '<img src=\'data:image/png;base64,{data}\' class="center" />'.format(
-                data=data,
-            )
+            except:
+                fig_html = self.get_figure_image_html(
+                    figure=figure,
+                )
 
         self.html += figure_name_html
         self.html += fig_html
+
+    def get_figure_image_html(
+        self,
+        figure,
+    ):
+        buf = BytesIO()
+        figure.savefig(
+            buf,
+            format='png',
+        )
+        data = base64.b64encode(buf.getbuffer()).decode('ascii')
+        fig_html = '<img src=\'data:image/png;base64,{data}\' class="center" />'.format(
+            data=data,
+        )
+
+        return fig_html
 
     def get_next_id(
         self,

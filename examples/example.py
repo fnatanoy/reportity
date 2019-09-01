@@ -1,31 +1,22 @@
 import pandas as pd
+import numpy as np
 
 # from . context import reportity
+import matplotlib as mpl
+from matplotlib.lines import Line2D
+
 from reportity import reportity
 from matplotlib import pyplot as plt
 
 
 def main():
-    data = get_test_data()
+    dataframe = get_dataframe()
 
-    fig1 = plt.figure()
-    plt.plot(data['age'],data['preTestScore'],'.')
-    plt.xlabel('Age')
-    plt.ylabel('Pre Test Score')
-    plt.grid(
-        b=True,
+    fig1 = get_figure_1()
+    fig2 = get_figure_2(
+        dataframe=dataframe,
     )
-    plt.title('Scores Vs Age',fontsize=20)
-
-    fig2 = plt.figure()
-    plt.scatter(data['age'],data['preTestScore'],s=data['preTestScore'])
-
-    plt.xlabel('Age')
-    plt.ylabel('Pre Test Score')
-    plt.grid(
-        b=True,
-    )
-    plt.title('Scores Vs Age Scatter Plot',fontsize=20)
+    fig3 = get_figure_3()
 
     report = reportity.Reportity(
         title='Test',
@@ -45,12 +36,12 @@ def main():
         text='The data - '
     )
     report.print_dataframe(
-        dataframe=data,
+        dataframe=dataframe,
         max_rows=5,
     )
     report.print_header(
         text='Figures',
-        level=1,
+        level=2,
     )
     report.print_figure(
         figure=fig1,
@@ -58,12 +49,23 @@ def main():
     report.print_figure(
         figure=fig2,
     )
+    report.print_header(
+        text='Complicated Figures',
+        level=2,
+    )
     report.print_paragraph(
-        text='here mpld3 is not supporting scatter plot, so an image is presented'
+        text='Here we have a complicated figure that mpld3 doesn\'t know how to convert properly. In this case we will use an image insted of an interactive figure'
+    )
+    report.print_figure(
+        figure=fig3,
+    )
+    report.print_figure(
+        figure=fig3,
+        image=True,
     )
     report.show()
 
-def get_test_data():
+def get_dataframe():
     raw_data = {
         'first_name': ['Jason', 'Molly', 'Tina', 'Jake', 'Amy'], 
         'last_name': ['Miller', 'Jacobson', 'Ali', 'Milner', 'Cooze'], 
@@ -73,6 +75,63 @@ def get_test_data():
     }
 
     return pd.DataFrame(raw_data, columns = ['first_name', 'last_name', 'age', 'preTestScore', 'postTestScore'])
+
+def get_figure_1():
+    fig, ax = plt.subplots()
+    x = np.linspace(0, 2 * np.pi, 500)
+    y1 = np.sin(x)
+    y2 = np.sin(3 * x)
+    ax.fill(x, y1, 'b', x, y2, 'r', alpha=0.3)
+    plt.xlabel('XX')
+    plt.ylabel('Cool Graph')
+    plt.grid(
+        b=True,
+    )
+    plt.title('Cool Graph',fontsize=20)
+
+    return fig
+
+
+def get_figure_2(
+    dataframe,
+):
+    fig = plt.figure()
+    plt.scatter(dataframe['age'],dataframe['preTestScore'],s=dataframe['preTestScore'])
+
+    plt.xlabel('Age')
+    plt.ylabel('Pre Test Score')
+    plt.grid(
+        b=True,
+    )
+    plt.title('Scores Vs Age Scatter Plot',fontsize=20)
+
+    return fig
+
+
+def get_figure_3():
+    points = np.ones(5)  # Draw 3 points for each line
+    text_style = dict(horizontalalignment='right', verticalalignment='center',
+                    fontsize=12, fontdict={'family': 'monospace'})
+    marker_style = dict(color='cornflowerblue', linestyle=':', marker='o',
+                        markersize=15, markerfacecoloralt='gray')
+
+    def format_axes(ax):
+        ax.margins(0.2)
+        ax.set_axis_off()
+
+    def nice_repr(text):
+        return repr(text).lstrip('u')
+
+    fig, ax = plt.subplots()
+
+    # Plot all fill styles.
+    for y, fill_style in enumerate(Line2D.fillStyles):
+        ax.text(-0.5, y, nice_repr(fill_style), **text_style)
+        ax.plot(y * points, fillstyle=fill_style, **marker_style)
+        format_axes(ax)
+        ax.set_title('fill style')
+
+    return fig
 
 
 if __name__ == "__main__":
