@@ -10,8 +10,10 @@ setup(
         'matplotlib',
         'numpy',
         'pandas',
-        '-e git://github.com/mpld3/mpld3@master#egg=mpld3',
         'Jinja2 == 2.10.1',
+    ],
+    dependency_links=[
+        'git+git://github.com/mpld3/mpld3@master#egg=mpld3',
     ],
     version='0.1',
     license='MIT',
