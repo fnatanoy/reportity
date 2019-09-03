@@ -8,6 +8,7 @@ from matplotlib.lines import Line2D
 from reportity import reportity
 from matplotlib import pyplot as plt
 
+pd.options.display.float_format = '{:,}'.format
 
 def main():
     dataframe = get_dataframe()
@@ -72,9 +73,10 @@ def get_dataframe():
         'age': [42, 52, 36, 24, 73], 
         'preTestScore': [4, 24, 31, 2, 3],
         'postTestScore': [25, 94, 57, 62, 70],
+        'cost': [2523423.423432, 923423423.44, 243457, 4343462, 74343210],
     }
 
-    return pd.DataFrame(raw_data, columns = ['first_name', 'last_name', 'age', 'preTestScore', 'postTestScore'])
+    return pd.DataFrame(raw_data)
 
 def get_figure_1():
     fig, ax = plt.subplots()
