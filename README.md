@@ -1,4 +1,4 @@
-# reportity
+# REPORTITY
 
 ## Description
 
@@ -54,9 +54,9 @@ report.show()
 1. pip3 install git+https://github.com/fnatanoy/reportity.git#egg=reportity
 2. pip3 inastall git+git://github.com/mpld3/mpld3@master#egg=mpld3
 
-## Errors
+## Passible Problems
 
-1. tinker is not installed -
+1. If tinker is not installed -
     apt-get install python3-tk
 
 ## Limitations
