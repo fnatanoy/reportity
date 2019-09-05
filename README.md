@@ -44,7 +44,7 @@ report.print_figure(
 report.show()
 ```
 
-<img src="pictures/html_sample.png"
+<img src="pictures/html_sample.jpg"
      alt="html_sample"
      style="float: left; margin-right: 10px;"
 />
