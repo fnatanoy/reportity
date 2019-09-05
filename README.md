@@ -4,9 +4,29 @@
 
 Reportity is an easy to use library for displaying figures/data frames and text. Reportity generates an interactive html report on the fly and execute it at the end of the run
 
+for example - the following code generates data frame and figure -
+
+```python
+report.print_paragraph(
+    text='The data - '
+)
+report.print_dataframe(
+    dataframe=dataframe,
+    max_rows=5,
+)
+report.print_header(
+    text='Figures',
+    level=2,
+)
+report.print_figure(
+    figure=fig1,
+)
+```
+
 <img src="pictures/html_sample.png"
      alt="html_sample"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 10px;"
+/>
 
 ## Installation
 
