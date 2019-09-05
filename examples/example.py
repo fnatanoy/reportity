@@ -20,21 +20,21 @@ def main():
     fig3 = get_figure_3()
 
     report = reportity.Reportity(
-        title='Test',
+        title='Reportity Example',
     )
     report.print_header(
         text='Description',
         level=1,
     )
     report.print_paragraph(
-        text='This is data of pepole'
+        text='This is an example of Reportity'
     )
     report.print_header(
         text='Data',
         level=2,
     )
     report.print_paragraph(
-        text='The data - '
+        text='The data'
     )
     report.print_dataframe(
         dataframe=dataframe,
