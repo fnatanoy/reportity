@@ -46,6 +46,7 @@ def main():
     )
     report.print_figure(
         figure=fig1,
+        image=True,
     )
     report.print_figure(
         figure=fig2,

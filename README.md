@@ -2,9 +2,13 @@
 
 ## Description
 
-Reportity is an easy to use library for displaying figures/data frames and text. Reportity generates an interactive html report on the fly and execute it at the end of the run
+Reportity is an easy to use library for displaying figures/dataframes and text. Reportity generates an interactive html report on the fly and execute it at the end of the run.
+
+NO MORE JUPYTER!!!
 
 ## Example
+
+For the full example code look at the examples folder
 
 The following code display dataframe and figure -
 
@@ -37,6 +41,7 @@ report.print_header(
 report.print_figure(
     figure=fig1,
 )
+report.show()
 ```
 
 <img src="pictures/html_sample.png"
@@ -46,10 +51,21 @@ report.print_figure(
 
 ## Installation
 
-    1. pip3 install git+https://github.com/fnatanoy/reportity.git#egg=reportity
-    2. pip3 inastall git+git://github.com/mpld3/mpld3@master#egg=mpld3
+1. pip3 install git+https://github.com/fnatanoy/reportity.git#egg=reportity
+2. pip3 inastall git+git://github.com/mpld3/mpld3@master#egg=mpld3
 
 ## Errors
 
-    1. tinker is not installed - 
-        sudo apt-get install python3-tk
+1. tinker is not installed -
+    apt-get install python3-tk
+
+## Limitations
+
+1. Some complicated figures might not rendered to Javascript or will get messed up. In this case you can use the _print_figure_ method with the parameter image=True. This will show the figure as an image and not an interactive Javascript figure
+
+```python
+report.print_figure(
+    figure=fig,
+    image=True,
+)
+```
