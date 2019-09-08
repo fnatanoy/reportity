@@ -54,7 +54,7 @@ report.show()
 1. pip3 install git+https://github.com/fnatanoy/reportity.git#egg=reportity
 2. pip3 inastall git+git://github.com/mpld3/mpld3@master#egg=mpld3
 
-## Passible Problems
+### possible Problems
 
 1. If tinker is not installed -
     apt-get install python3-tk
@@ -67,5 +67,50 @@ report.show()
 report.print_figure(
     figure=fig,
     image=True,
+)
+```
+
+## Usage
+
+Create reportity object with a title
+
+```python
+report = reportity.Reportity(
+        title='Repority Title',
+    )
+```
+
+Add header and give it a level
+
+```python
+report.print_header(
+        text='Header name with level 1',
+        level=1,
+    )
+```
+
+Add paragraph
+
+```python
+report.print_paragraph(
+    text='This is paragraph text'
+)
+```
+
+Add dataframe, you can choose maximum rows to display
+
+```python
+report.print_dataframe(
+    dataframe=dataframe,
+    max_rows=5,
+)
+```
+
+Add figure, If image=True than the figure will be an image and not interactive figure, use it when the figure is not displaying correctly
+
+```python
+report.print_figure(
+    figure=fig,
+    image=False,
 )
 ```
