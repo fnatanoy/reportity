@@ -52,7 +52,7 @@ report.show()
 ## Installation
 
 1. pip3 install git+https://github.com/fnatanoy/reportity.git#egg=reportity
-2. pip3 inastall git+git://github.com/mpld3/mpld3@master#egg=mpld3
+2. pip3 install git+git://github.com/mpld3/mpld3@master#egg=mpld3
 
 ### possible Problems
 
