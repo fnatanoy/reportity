@@ -1,12 +1,13 @@
 import pandas as pd
 import numpy as np
 
-# from . context import reportity
+import plotly.graph_objects as go
 import matplotlib as mpl
 from matplotlib.lines import Line2D
 
-from reportity import reportity
+from ..reportity import reportity
 from matplotlib import pyplot as plt
+
 
 pd.options.display.float_format = '{:,}'.format
 
@@ -18,6 +19,7 @@ def main():
         dataframe=dataframe,
     )
     fig3 = get_figure_3()
+    plotly_fig = get_plotly_figure()
 
     report = reportity.Reportity(
         title='Reportity Example',
@@ -27,14 +29,14 @@ def main():
         level=1,
     )
     report.print_paragraph(
-        text='This is an example of Reportity'
+        text='This is an example of Reportity<br>Look how easy it is'
     )
     report.print_header(
         text='Data',
-        level=2,
+        level=1,
     )
     report.print_paragraph(
-        text='The data'
+        text='This is a dataframe with some data'
     )
     report.print_dataframe(
         dataframe=dataframe,
@@ -42,11 +44,25 @@ def main():
     )
     report.print_header(
         text='Figures',
+        level=1,
+    )
+    report.print_paragraph(
+        text='Some graphs, We strongly recommend to use Plotly but you can use matplotlib if you want '
+    )
+    report.print_header(
+        text='Plotly Figures',
+        level=2,
+    )
+    report.print_figure(
+        figure=plotly_fig
+    )
+    report.print_header(
+        text='Matplotlib Figures',
         level=2,
     )
     report.print_figure(
         figure=fig1,
-        image=True,
+        image=False,
     )
     report.print_figure(
         figure=fig2,
@@ -65,7 +81,13 @@ def main():
         figure=fig3,
         image=True,
     )
+
+    report.save_as_html(
+        path='example_report.html',
+    )
+
     report.show()
+
 
 def get_dataframe():
     raw_data = {
@@ -79,18 +101,18 @@ def get_dataframe():
 
     return pd.DataFrame(raw_data)
 
+
 def get_figure_1():
     fig, ax = plt.subplots()
-    x = np.linspace(0, 2 * np.pi, 500)
-    y1 = np.sin(x)
-    y2 = np.sin(3 * x)
-    ax.fill(x, y1, 'b', x, y2, 'r', alpha=0.3)
-    plt.xlabel('XX')
-    plt.ylabel('Cool Graph')
+    x = np.arange(10)
+    y = x ** 2
+    plt.plot(x,y)
+    plt.xlabel('X')
+    plt.ylabel('Y')
     plt.grid(
         b=True,
     )
-    plt.title('Cool Graph',fontsize=20)
+    plt.title('y=x^2',fontsize=20)
 
     return fig
 
@@ -112,7 +134,7 @@ def get_figure_2(
 
 
 def get_figure_3():
-    points = np.ones(5)  # Draw 3 points for each line
+    points = np.ones(5)
     text_style = dict(horizontalalignment='right', verticalalignment='center',
                     fontsize=12, fontdict={'family': 'monospace'})
     marker_style = dict(color='cornflowerblue', linestyle=':', marker='o',
@@ -127,12 +149,28 @@ def get_figure_3():
 
     fig, ax = plt.subplots()
 
-    # Plot all fill styles.
     for y, fill_style in enumerate(Line2D.fillStyles):
         ax.text(-0.5, y, nice_repr(fill_style), **text_style)
         ax.plot(y * points, fillstyle=fill_style, **marker_style)
         format_axes(ax)
         ax.set_title('fill style')
+
+    return fig
+
+def get_plotly_figure():
+    x = np.arange(10)
+    fig = go.Figure(data=go.Scatter(x=x, y=x**2))
+
+    fig.update_layout(
+        width=1000,
+        paper_bgcolor="LightSteelBlue",
+        title='y = x^2',
+        xaxis_title="X",
+        yaxis_title='Y',
+            font=dict(
+            size=18,
+        )
+    )
 
     return fig
 

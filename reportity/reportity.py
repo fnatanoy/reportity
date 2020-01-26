@@ -2,6 +2,8 @@ import re
 import os
 import mpld3
 import base64
+import plotly
+import matplotlib
 
 from io import BytesIO
 from mpld3._server import serve
@@ -39,6 +41,12 @@ class Reportity():
                     margin-right: auto;
                     width: 50%;
                 }
+                .plotly-graph-div {
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 50%;
+                }
                 hr { 
                     display: block;
                     margin-top: 0.5em;
@@ -55,6 +63,7 @@ class Reportity():
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+                <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
             </head>
             <body>
         '''
@@ -125,11 +134,21 @@ class Reportity():
         figure_name=None,
         image=False,
     ):
-        if not figure_name:
-            figure_name = figure.axes[0].get_title()
+        if type(figure) == matplotlib.figure.Figure:
+            fig_html, figure_name = self._convert_matplotlib_figure(
+                figure=figure,
+                image=image,
+                figure_name=figure_name,
+            )
+
+        if type(figure) == plotly.graph_objs._figure.Figure:
+            fig_html, figure_name = self._convert_plotly_figure(
+                figure=figure,
+                image=image,
+                figure_name=figure_name,
+            )
 
         figure_id = self.get_next_id()
-
         figure_name_html = '<div><p id="{figure_id}">{figure_name}</p></div>'.format(
             figure_id=figure_id,
             figure_name=figure_name,
@@ -138,20 +157,6 @@ class Reportity():
             figure_id=figure_id,
             figure_name=figure_name,
         )
-
-        if image:
-            fig_html = self.get_figure_image_html(
-                figure=figure,
-            )
-        else:
-            try:
-                fig_html = mpld3.fig_to_html(figure).split('<div ')
-                fig_html = fig_html[0] + '<div align="center" ' + fig_html[1]
-
-            except:
-                fig_html = self.get_figure_image_html(
-                    figure=figure,
-                )
 
         self.html += figure_name_html
         self.html += fig_html
@@ -179,18 +184,6 @@ class Reportity():
 
         return self.figures_next_id
 
-
-    def save(
-        self,
-        path,
-    ):
-        self.__end_html__()
-        with open(
-            file='test.html',
-            mode='w',
-        ) as f: 
-            f.write(self.html)
-
     def show(
         self,
     ):
@@ -216,4 +209,49 @@ class Reportity():
     ):
         self.__end_html__()
 
-        raise NotImplemented
+        raise NotImplementedError
+
+    def _convert_matplotlib_figure(
+        self,
+        figure,
+        figure_name,
+        image,
+    ):
+        if not figure_name:
+            try:
+                figure_name = figure.axes[0].get_title()
+            except:
+                figure_name = 'figure'
+
+        if image:
+            fig_html = self.get_figure_image_html(
+                figure=figure,
+            )
+        else:
+            try:
+                fig_html = mpld3.fig_to_html(figure).split('<div ')
+                fig_html = fig_html[0] + '<div align="center" ' + fig_html[1]
+
+            except:
+                fig_html = self.get_figure_image_html(
+                    figure=figure,
+                )
+
+        return fig_html, figure_name
+
+    def _convert_plotly_figure(
+        self,
+        figure,
+        figure_name,
+        image,
+    ):
+        if not figure_name:
+            try:
+                figure_name = figure['layout']['title']['text']
+            except KeyError:
+                figure_name = 'figure'
+
+
+        fig_html = plotly.offline.plot(figure, include_plotlyjs=False, output_type='div')
+
+        return fig_html, figure_name

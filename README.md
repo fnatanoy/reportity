@@ -114,3 +114,10 @@ report.print_figure(
     image=False,
 )
 ```
+
+Save report as html
+
+```python
+report.save_as_html(
+    path='destination_folder/report.html',
+)
