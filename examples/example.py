@@ -82,6 +82,9 @@ def main():
         image=True,
     )
 
+    report.save_as_html(
+        path='example_report.html',
+    )
 
     report.show()
 
