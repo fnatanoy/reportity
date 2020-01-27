@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='Reportity',
+    name='reportity',
     url='https://github.com/fnatanoy/reportity',
     author='Yonatan Faigenbaum',
     author_email='fnatanoy@gmail.com',
@@ -15,8 +15,10 @@ setup(
     dependency_links=[
         'git+git://github.com/mpld3/mpld3@master#egg=mpld3',
     ],
-    version='0.1',
+    version='0.2',
     license='MIT',
     description='',
     long_description=open('README.md').read(),
+    keywords=['report','analysis','figures','plot'],
+    download_url='https://github.com/fnatanoy/reportity/archive/v_02.tar.gz',
 )
