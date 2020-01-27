@@ -20,5 +20,5 @@ setup(
     description='',
     long_description=open('README.md').read(),
     keywords=['report','analysis','figures','plot'],
-    download_url='https://github.com/fnatanoy/reportity/archive/v_02.tar.gz',
+    download_url='https://github.com/fnatanoy/reportity/archive/v_021.tar.gz',
 )
