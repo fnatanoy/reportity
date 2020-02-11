@@ -175,5 +175,8 @@ def get_plotly_figure():
     return fig
 
 
+'''
+python -m reportity.examples.example
+'''
 if __name__ == "__main__":
     main()

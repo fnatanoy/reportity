@@ -12,6 +12,18 @@ from matplotlib import pyplot as plt
 import pandas as pd
 
 
+current_path = os.path.dirname(__file__)
+resources_path = os.path.abspath(
+    os.path.join(
+        current_path,
+        'resources',
+    )
+)
+favicon_path = os.path.join(
+    resources_path,
+    'favicon.png',
+
+)
 class Reportity():
     def __init__(
         self,
@@ -28,26 +40,26 @@ class Reportity():
 
             <head>
                 <style>
-                body {
+                body {{
                     margin:20;
                     padding:20
-                }
-                div {
+                }}
+                div {{
                 margin: 25px;
-                }
-                .center {
+                }}
+                .center {{
                     display: block;
                     margin-left: auto;
                     margin-right: auto;
                     width: 50%;
-                }
-                .plotly-graph-div {
+                }}
+                .plotly-graph-div {{
                     display: block;
                     margin-left: auto;
                     margin-right: auto;
                     width: 50%;
-                }
-                hr { 
+                }}
+                hr {{ 
                     display: block;
                     margin-top: 0.5em;
                     margin-bottom: 0.5em;
@@ -55,11 +67,12 @@ class Reportity():
                     margin-right: auto;
                     border-style: inset;
                     border-width: 1px;
-                }
+                }}
                 </style>
                 <title>{title}</title>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="icon" href={favicon_path}>
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -68,6 +81,7 @@ class Reportity():
             <body>
         '''.format(
             title=title,
+            favicon_path=favicon_path,
         )
 
         self.html += '<h1 align="center", style="font-size:400%">{title}</h1><hr>figures_hrefs'.format(
