@@ -57,7 +57,7 @@ class Reportity():
                     border-width: 1px;
                 }
                 </style>
-                <title>Bootstrap Example</title>
+                <title>{title}</title>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -66,7 +66,9 @@ class Reportity():
                 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
             </head>
             <body>
-        '''
+        '''.format(
+            title=title,
+        )
 
         self.html += '<h1 align="center", style="font-size:400%">{title}</h1><hr>figures_hrefs'.format(
             title=title,
