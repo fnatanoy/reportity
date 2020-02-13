@@ -22,7 +22,7 @@ setup(
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     keywords=['report','analysis','figures','plot'],
-    download_url='https://github.com/fnatanoy/reportity/archive/v_023.tar.gz',
+    download_url='https://github.com/fnatanoy/reportity/archive/v_03.tar.gz',
     classifiers=[
         'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
         'Intended Audience :: Developers',      # Define that your audience are developers
