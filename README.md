@@ -1,5 +1,10 @@
 # REPORTITY
 
+<img src="pictures/logo_2.png"
+     alt="html_sample"
+     style="float: left; margin-right: 10px;"
+/>
+
 ## Description
 
 Reportity is an easy to use library for displaying figures/dataframes and text. Reportity generates an interactive html report on the fly and execute it at the end of the run.
@@ -50,7 +55,7 @@ report.show()
 ## Installation
 
 ```bash
-pip instal reportity
+pip install reportity
 ```
 
 ### possible Problems
@@ -60,12 +65,12 @@ pip instal reportity
 
 ## Limitations
 
-1. Some complicated figures might not rendered to Javascript or will get messed up. In this case you can use the _print_figure_ method with the parameter image=True. This will show the figure as an image and not an interactive Javascript figure
+1. Some complicated figures created with matplotlib might not be rendered to Javascript or will get messed up. In this case you can use the _print_figure method with the parameter as_image=True. This will show the figure as an image and not an interactive Javascript figure
 
 ```python
 report.print_figure(
     figure=fig,
-    image=True,
+    as_image=True,
 )
 ```
 
@@ -105,12 +110,12 @@ report.print_dataframe(
 )
 ```
 
-Add figure, If image=True than the figure will be an image and not interactive figure, use it when the figure is not displaying correctly
+Add figure, If as_image=True than the figure will be an image and not interactive figure, use it when a matplot figure is not displaying correctly
 
 ```python
 report.print_figure(
     figure=fig,
-    image=False,
+    as_image=False,
 )
 report.print_2_figures(
     figure_left=fig_left,
