@@ -30,9 +30,9 @@ class Reportity():
     def __init__(
         self,
         title,
-        include_plotlyjs=False,
+        include_plotly_js=False,
     ):
-        self.include_plotlyjs = include_plotlyjs
+        self.include_plotlyjs = include_plotly_js
         self.fist_figure = True
 
         self.html = ''

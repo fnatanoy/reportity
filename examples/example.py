@@ -20,7 +20,7 @@ def main():
 
     report = reportity.Reportity(
         title='Reportity Example',
-        include_plotlyjs=True,
+        include_plotly_js=False,
     )
     report.print_header(
         text='Description',

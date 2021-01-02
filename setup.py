@@ -16,7 +16,7 @@ setup(
     dependency_links=[
         'git+git://github.com/mpld3/mpld3@master#egg=mpld3',
     ],
-    version='0.3',
+    version='1.0',
     license='MIT',
     description='this is the best package for reports',
     long_description=open('README.md').read(),
