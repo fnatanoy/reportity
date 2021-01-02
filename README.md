@@ -16,6 +16,8 @@ For the full example code look at the examples folder
 The following code display dataframe and figure -
 
 ```python
+from reportity import reportity
+
 report = reportity.Reportity(
     title='Reportity Example',
 )
