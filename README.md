@@ -1,10 +1,13 @@
 # REPORTITY
 
+<img src="pictures/logo_2.png"
+     alt="html_sample"
+     style="float: left; margin-right: 10px;"
+/>
+
 ## Description
 
 Reportity is an easy to use library for displaying figures/dataframes and text. Reportity generates an interactive html report on the fly and execute it at the end of the run.
-
-NO MORE JUPYTER!!!
 
 ## Example
 
@@ -39,20 +42,21 @@ report.print_header(
     level=2,
 )
 report.print_figure(
-    figure=fig1,
+    figure=fig,
 )
 report.show()
 ```
 
-<img src="pictures/html_sample.jpg"
+<img src="pictures/html_sample_2.png"
      alt="html_sample"
      style="float: left; margin-right: 10px;"
 />
 
 ## Installation
 
-1. pip3 install git+https://github.com/fnatanoy/reportity.git#egg=reportity
-2. pip3 install git+git://github.com/mpld3/mpld3@master#egg=mpld3
+```bash
+pip install reportity
+```
 
 ### possible Problems
 
@@ -61,12 +65,12 @@ report.show()
 
 ## Limitations
 
-1. Some complicated figures might not rendered to Javascript or will get messed up. In this case you can use the _print_figure_ method with the parameter image=True. This will show the figure as an image and not an interactive Javascript figure
+1. Some complicated figures created with matplotlib might not be rendered to Javascript or will get messed up. In this case you can use the _print_figure method with the parameter as_image=True. This will show the figure as an image and not an interactive Javascript figure
 
 ```python
 report.print_figure(
     figure=fig,
-    image=True,
+    as_image=True,
 )
 ```
 
@@ -106,12 +110,16 @@ report.print_dataframe(
 )
 ```
 
-Add figure, If image=True than the figure will be an image and not interactive figure, use it when the figure is not displaying correctly
+Add figure, If as_image=True than the figure will be an image and not interactive figure, use it when a matplot figure is not displaying correctly
 
 ```python
 report.print_figure(
     figure=fig,
-    image=False,
+    as_image=False,
+)
+report.print_2_figures(
+    figure_left=fig_left,
+    figure_right=fig_right,
 )
 ```
 
@@ -121,3 +129,17 @@ Save report as html
 report.save_as_html(
     path='destination_folder/report.html',
 )
+```
+
+## Sharing Reports
+
+if you want to share the report with someone that dose not have plotly install in her computer you need to create the report with the following flag:
+
+```python
+report = reportity.Reportity(
+    title='Reportity Example',
+    include_plotly_js=True,
+)
+```
+
+This will include some js needed for the plots to stay interactive. If you add it the report size will be a bit bigger so make sure you don't add it always
