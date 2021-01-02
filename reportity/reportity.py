@@ -24,6 +24,8 @@ favicon_path = os.path.join(
     'logo_2.ico',
 
 )
+
+
 class Reportity():
     def __init__(
         self,
@@ -111,14 +113,6 @@ class Reportity():
             string=self.html,
         )
 
-    def print_paragraph(
-        self,
-        text,
-    ):
-        self.html += '<div><p>{text}</p></div>'.format(
-            text=text,
-        )
-
     def print_header(
         self,
         text,
@@ -126,6 +120,14 @@ class Reportity():
     ):
         self.html += '<h{level}>{text}</h{level}>'.format(
             level=level,
+            text=text,
+        )
+
+    def print_paragraph(
+        self,
+        text,
+    ):
+        self.html += '<div><p>{text}</p></div>'.format(
             text=text,
         )
 
@@ -219,50 +221,6 @@ class Reportity():
         self.html += figure_name_html
         self.html += fig_html
 
-    def _get_fig_html(
-        self,
-        figure,
-        figure_name,
-        as_image,
-    ):
-        if type(figure) == matplotlib.figure.Figure:
-            fig_html, figure_name = self._convert_matplotlib_figure(
-                figure=figure,
-                as_image=as_image,
-                figure_name=figure_name,
-            )
-
-        if type(figure) == plotly.graph_objs._figure.Figure:
-            fig_html, figure_name = self._convert_plotly_figure(
-                figure=figure,
-                figure_name=figure_name,
-            )
-
-        return fig_html, figure_name
-
-    def _get_figure_image_html(
-        self,
-        figure,
-    ):
-        buf = BytesIO()
-        figure.savefig(
-            buf,
-            format='png',
-        )
-        data = base64.b64encode(buf.getbuffer()).decode('ascii')
-        fig_html = '<img src=\'data:image/png;base64,{data}\' class="center" />'.format(
-            data=data,
-        )
-
-        return fig_html
-
-    def _get_next_id(
-        self,
-    ):
-        self.figures_next_id += 1
-
-        return self.figures_next_id
-
     def show(
         self,
     ):
@@ -289,6 +247,27 @@ class Reportity():
         self.__end_html__()
 
         raise NotImplementedError
+
+    def _get_fig_html(
+        self,
+        figure,
+        figure_name,
+        as_image,
+    ):
+        if type(figure) == matplotlib.figure.Figure:
+            fig_html, figure_name = self._convert_matplotlib_figure(
+                figure=figure,
+                as_image=as_image,
+                figure_name=figure_name,
+            )
+
+        if type(figure) == plotly.graph_objs._figure.Figure:
+            fig_html, figure_name = self._convert_plotly_figure(
+                figure=figure,
+                figure_name=figure_name,
+            )
+
+        return fig_html, figure_name
 
     def _convert_matplotlib_figure(
         self,
@@ -318,6 +297,22 @@ class Reportity():
 
         return fig_html, figure_name
 
+    def _get_figure_image_html(
+        self,
+        figure,
+    ):
+        buf = BytesIO()
+        figure.savefig(
+            buf,
+            format='png',
+        )
+        data = base64.b64encode(buf.getbuffer()).decode('ascii')
+        fig_html = '<img src=\'data:image/png;base64,{data}\' class="center" />'.format(
+            data=data,
+        )
+
+        return fig_html
+
     def _convert_plotly_figure(
         self,
         figure,
@@ -345,3 +340,10 @@ class Reportity():
         )
 
         return fig_html, figure_name
+
+    def _get_next_id(
+        self,
+    ):
+        self.figures_next_id += 1
+
+        return self.figures_next_id
