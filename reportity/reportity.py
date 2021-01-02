@@ -21,19 +21,22 @@ resources_path = os.path.abspath(
 )
 favicon_path = os.path.join(
     resources_path,
-    'favicon.png',
+    'logo_2.ico',
 
 )
 class Reportity():
     def __init__(
         self,
         title,
+        include_plotlyjs=False,
     ):
+        self.include_plotlyjs = include_plotlyjs
+        self.fist_figure = True
+
         self.html = ''
         self.figures_next_id = 0
         self.figures_href = ''
         self.html_ended = False
-
         self.html = '''
             <!DOCTYPE html>
             <html lang="en">
@@ -41,8 +44,8 @@ class Reportity():
             <head>
                 <style>
                 body {{
-                    margin:20;
-                    padding:20
+                    margin:20px;
+                    padding:20px;
                 }}
                 div {{
                 margin: 25px;
@@ -57,7 +60,8 @@ class Reportity():
                     display: block;
                     margin-left: auto;
                     margin-right: auto;
-                    width: 50%;
+                    width: auto;
+                    hight: auto;
                 }}
                 hr {{ 
                     display: block;
@@ -72,7 +76,7 @@ class Reportity():
                 <title>{title}</title>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
-                <link rel="icon" href={favicon_path}>
+                <link rel='icon' href={favicon_path} type='image/ico'/ >
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -148,23 +152,15 @@ class Reportity():
         self,
         figure,
         figure_name=None,
-        image=False,
+        as_image=False,
     ):
-        if type(figure) == matplotlib.figure.Figure:
-            fig_html, figure_name = self._convert_matplotlib_figure(
-                figure=figure,
-                image=image,
-                figure_name=figure_name,
-            )
+        fig_html, figure_name =self._get_fig_html(
+            figure=figure,
+            figure_name=figure_name,
+            as_image=as_image,
+        )
 
-        if type(figure) == plotly.graph_objs._figure.Figure:
-            fig_html, figure_name = self._convert_plotly_figure(
-                figure=figure,
-                image=image,
-                figure_name=figure_name,
-            )
-
-        figure_id = self.get_next_id()
+        figure_id = self._get_next_id()
         figure_name_html = '<div><p id="{figure_id}">{figure_name}</p></div>'.format(
             figure_id=figure_id,
             figure_name=figure_name,
@@ -177,7 +173,74 @@ class Reportity():
         self.html += figure_name_html
         self.html += fig_html
 
-    def get_figure_image_html(
+    def print_2_figures(
+        self,
+        figure_left,
+        figure_right,
+        figure_name=None,
+        as_image=False,
+    ):
+        fig_html_left, figure_name_left =self._get_fig_html(
+            figure=figure_left,
+            figure_name=figure_name,
+            as_image=as_image,
+        )
+        fig_html_right, figure_name_right =self._get_fig_html(
+            figure=figure_right,
+            figure_name=figure_name,
+            as_image=as_image,
+        )
+
+        figure_id = self._get_next_id()
+        figure_name_html = '<div><p id="{figure_id}">{figure_name}</p></div>'.format(
+            figure_id=figure_id,
+            figure_name=figure_name,
+        )
+        self.figures_href += '<a href="#{figure_id}">{figure_name}</a><br>'.format(
+            figure_id=figure_id,
+            figure_name=figure_name,
+        )
+
+        fig_html = '''
+            <div style="height: 90%; width:95%; float: center; display:flex;">
+                <div style="flex: 1; margin-right: 5px;">
+                    {fig_left}
+                </div>
+                <div style="flex: 1; margin-right: 5px;">
+                    {fig_right}
+                </div>
+            </div>
+            <br>
+        '''.format(
+            fig_left=fig_html_left,
+            fig_right=fig_html_right,
+        )
+
+        self.html += figure_name_html
+        self.html += fig_html
+
+    def _get_fig_html(
+        self,
+        figure,
+        figure_name,
+        as_image,
+    ):
+        if type(figure) == matplotlib.figure.Figure:
+            fig_html, figure_name = self._convert_matplotlib_figure(
+                figure=figure,
+                as_image=as_image,
+                figure_name=figure_name,
+            )
+
+        if type(figure) == plotly.graph_objs._figure.Figure:
+            fig_html, figure_name = self._convert_plotly_figure(
+                figure=figure,
+                figure_name=figure_name,
+            )
+
+        return fig_html, figure_name
+
+    def _get_figure_image_html(
         self,
         figure,
     ):
@@ -193,7 +256,7 @@ class Reportity():
 
         return fig_html
 
-    def get_next_id(
+    def _get_next_id(
         self,
     ):
         self.figures_next_id += 1
@@ -231,7 +294,7 @@ class Reportity():
         self,
         figure,
         figure_name,
-        image,
+        as_image,
     ):
         if not figure_name:
             try:
@@ -239,8 +302,8 @@ class Reportity():
             except:
                 figure_name = 'figure'
 
-        if image:
-            fig_html = self.get_figure_image_html(
+        if as_image:
+            fig_html = self._get_figure_image_html(
                 figure=figure,
             )
         else:
@@ -249,7 +312,7 @@ class Reportity():
                 fig_html = fig_html[0] + '<div align="center" ' + fig_html[1]
 
             except:
-                fig_html = self.get_figure_image_html(
+                fig_html = self._get_figure_image_html(
                     figure=figure,
                 )
 
@@ -259,7 +322,6 @@ class Reportity():
         self,
         figure,
         figure_name,
-        image,
     ):
         if not figure_name:
             try:
@@ -267,7 +329,19 @@ class Reportity():
             except KeyError:
                 figure_name = 'figure'
 
+        if figure['layout']['width']:
+            figure['layout']['width'] = None
 
-        fig_html = plotly.offline.plot(figure, include_plotlyjs=False, output_type='div')
+
+        if self.fist_figure == True:
+            include_plotlyjs = self.include_plotlyjs
+            self.fist_figure = False
+        else:
+            include_plotlyjs = False
+
+        fig_html = plotly.offline.plot(
+            figure, include_plotlyjs=include_plotlyjs,
+            output_type='div',
+        )
 
         return fig_html, figure_name

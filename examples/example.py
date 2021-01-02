@@ -7,22 +7,20 @@ from matplotlib.lines import Line2D
 
 from ..reportity import reportity
 from matplotlib import pyplot as plt
-
+from .plotly_styled_figure import StayledFigures, Colors 
 
 pd.options.display.float_format = '{:,}'.format
 
 def main():
     dataframe = get_dataframe()
 
-    fig1 = get_figure_1()
-    fig2 = get_figure_2(
-        dataframe=dataframe,
-    )
-    fig3 = get_figure_3()
+    simple_matplot_fig = get_simple_matplot_fig()
+    complicated_matplot_fig = get_complicated_matplot()
     plotly_fig = get_plotly_figure()
 
     report = reportity.Reportity(
         title='Reportity Example',
+        include_plotlyjs=True,
     )
     report.print_header(
         text='Description',
@@ -36,7 +34,7 @@ def main():
         level=1,
     )
     report.print_paragraph(
-        text='This is a dataframe with some data'
+        text='This is a dataframe with some data. You can limit it with max row'
     )
     report.print_dataframe(
         dataframe=dataframe,
@@ -47,7 +45,7 @@ def main():
         level=1,
     )
     report.print_paragraph(
-        text='Some graphs, We strongly recommend to use Plotly but you can use matplotlib if you want '
+        text='Printing graphs is easy!<br>We strongly recommend to use Plotly but you can use matplotlib if you want<br>You can print one or two figures in a row'
     )
     report.print_header(
         text='Plotly Figures',
@@ -56,16 +54,20 @@ def main():
     report.print_figure(
         figure=plotly_fig
     )
+    report.print_2_figures(
+        figure_left=plotly_fig,
+        figure_right=plotly_fig,
+        figure_name='Two Figures'
+    )
     report.print_header(
         text='Matplotlib Figures',
         level=2,
     )
-    report.print_figure(
-        figure=fig1,
-        image=False,
+    report.print_paragraph(
+        text='mpld3 converts matplot figures to interactive figures'
     )
     report.print_figure(
-        figure=fig2,
+        figure=simple_matplot_fig,
     )
     report.print_header(
         text='Complicated Figures',
@@ -75,11 +77,13 @@ def main():
         text='Here we have a complicated figure that mpld3 doesn\'t know how to convert properly. In this case we will use an image insted of an interactive figure'
     )
     report.print_figure(
-        figure=fig3,
+        figure=complicated_matplot_fig,
+        figure_name='Bad randering'
     )
     report.print_figure(
-        figure=fig3,
-        image=True,
+        figure=complicated_matplot_fig,
+        figure_name='Figure as image',
+        as_image=True,
     )
 
     report.save_as_html(
@@ -102,7 +106,7 @@ def get_dataframe():
     return pd.DataFrame(raw_data)
 
 
-def get_figure_1():
+def get_simple_matplot_fig():
     fig, ax = plt.subplots()
     x = np.arange(10)
     y = x ** 2
@@ -117,23 +121,7 @@ def get_figure_1():
     return fig
 
 
-def get_figure_2(
-    dataframe,
-):
-    fig = plt.figure()
-    plt.scatter(dataframe['age'],dataframe['preTestScore'],s=dataframe['preTestScore'])
-
-    plt.xlabel('Age')
-    plt.ylabel('Pre Test Score')
-    plt.grid(
-        b=True,
-    )
-    plt.title('Scores Vs Age Scatter Plot',fontsize=20)
-
-    return fig
-
-
-def get_figure_3():
+def get_complicated_matplot():
     points = np.ones(5)
     text_style = dict(horizontalalignment='right', verticalalignment='center',
                     fontsize=12, fontdict={'family': 'monospace'})
@@ -159,15 +147,19 @@ def get_figure_3():
 
 def get_plotly_figure():
     x = np.arange(10)
-    fig = go.Figure(data=go.Scatter(x=x, y=x**2))
+    fig = StayledFigures.get_figure()
 
+    fig.add_trace(go.Scatter(
+    x=x,
+    y=x**2,
+    mode='markers+lines',
+    ))
     fig.update_layout(
         width=1000,
-        paper_bgcolor="LightSteelBlue",
-        title='y = x^2',
-        xaxis_title="X",
-        yaxis_title='Y',
-            font=dict(
+        title='Y = X^2',
+        xaxis_title='X',
+        yaxis_title='X^2',
+        font=dict(
             size=18,
         )
     )

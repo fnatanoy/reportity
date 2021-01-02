@@ -11,7 +11,7 @@ setup(
         'mpld3',
         'numpy',
         'pandas',
-        'Jinja2 == 2.10.1',
+        # 'Jinja2 == 2.10.1',
     ],
     dependency_links=[
         'git+git://github.com/mpld3/mpld3@master#egg=mpld3',
