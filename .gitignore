@@ -4,4 +4,5 @@ dist
 *.egg-info
 *.vscode
 requirements.txt
+/build/
 /venv/
