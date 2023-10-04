@@ -261,7 +261,7 @@ class Reportity():
                 figure_name=figure_name,
             )
 
-        if type(figure) == plotly.graph_objs._figure.Figure:
+        elif type(figure) == plotly.graph_objs._figure.Figure:
             fig_html, figure_name = self._convert_plotly_figure(
                 figure=figure,
                 figure_name=figure_name,
